@@ -7,6 +7,7 @@ const toDO = [];
 const $getMeal = $('#getMeal');
 const $dislike = $('.dislike');
 const $like = $('like');
+const $ul = $('ul')
 
 // // event listeners
 $getMeal.on('click', handleGetMeal);
@@ -31,7 +32,7 @@ function handleGetMeal(evt) {
 function render(meal) {
 
     let ingredients = [];
-    
+
     for (let i = 1; i <= 20; i++) {
         if (meal.meals[0]["strIngredient" + i]) {
             ingredients.push(
@@ -41,7 +42,6 @@ function render(meal) {
             break;
         }
     }
-
 
     $('main').html(`
     <h3>Meal: ${meal.meals[0].strMeal}</h3>
@@ -64,8 +64,11 @@ function render(meal) {
     $('.like').on('click', function () {
         $.ajax(URL).then(function (data) {
             toDO.push(meal.meals[0].strMeal);
+            $ul.append(`<li>${meal.meals[0].strMeal} <button class="delete">X</button></li>`);
+            $ul.on('click','.delete', function () {
+                $(this).closest('li').remove();
+            });
             render(data);
-            console.log(toDO);
         });
     });
 };
