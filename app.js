@@ -16,7 +16,7 @@ function handleGetMeal(evt) {
 
     $.ajax(URL).then(function (data) {
         render(data);
-        // console.log(data.meals[0].strMeal)
+         console.log(data.meals[0])
     }, function (error) {
         console.log('something went wrong')
         console.log(error);
@@ -36,7 +36,7 @@ function handleGetMeal(evt) {
 function render(meal) {
     $('main').html(`
     <h3> Title: ${meal.meals[0].strMeal}</h3 >
-    <img src="${meal.img}" alt="${meal.meals[0].strMeal}">
+    <img src="${meal.meals[0].strMealThumb}" alt="${meal.meals[0].strMeal}">
     
     <p>Instructons: ${meal.meals[0].strInstructions}</p>
     <button class="dislike">Dislike</button> <button clss="like">Like</button>
