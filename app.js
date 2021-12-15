@@ -44,11 +44,17 @@ function render(meal) {
     }
 
     $('main').html(`
-    <h3>Meal: ${meal.meals[0].strMeal}</h3>
-    <img src="${meal.meals[0].strMealThumb}" alt="${meal.meals[0].strMeal}">
-    <p>Ingredients: ${ingredients.map(ingredients => `<li>${ingredients}</li>`)}</p>
-    <p>Instructons: ${meal.meals[0].strInstructions}</p>
+    <div class="card">
+    <div class="card-header"><h3>Meal: ${meal.meals[0].strMeal}</h3></div>
+    <div class="card-body">
+    <img src="${meal.meals[0].strMealThumb}" class="card-img-top" alt="${meal.meals[0].strMeal}">
+    <p><strong>Ingredients:</strong> ${ingredients.map(ingredients => `<li>${ingredients}</li>`)}</p>
+    <p class="right"><strong>Instructons:</strong> ${meal.meals[0].strInstructions}</p>
+    <div class="card-footer">
     <button class="dislike">Dislike</button> <button class="like">Like</button>
+    </div>
+    </div>
+    </div>
     `);
     console.log(meal.meals[0]);
 
