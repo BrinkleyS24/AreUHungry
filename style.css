@@ -2,16 +2,35 @@
     box-sizing: border-box;
   }
   
-  body {
+body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 30px 0;
     min-height: 100vh;
-  }
+}
+
+#ingredients {
+    text-decoration: underline;
+}
+
+.intro {
+    text-align: center ;
+}
+
+.list {
+    text-decoration: underline;
+   
+    
+}
 
 .card {
+    display: flex;
       width: 30rem;
-  }
+}
+
+.card-footer {
+    justify-content: space-around
+}
 

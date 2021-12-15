@@ -35,6 +35,7 @@ function render(meal) {
 
     for (let i = 1; i <= 20; i++) {
         if (meal.meals[0]["strIngredient" + i]) {
+            
             ingredients.push(
                 `${meal.meals[0][`strIngredient${i}`]} - ${meal.meals[0][`strMeasure${i}`]}`
             );
@@ -45,13 +46,13 @@ function render(meal) {
 
     $('main').html(`
     <div class="card">
-    <div class="card-header"><h3>Meal: ${meal.meals[0].strMeal}</h3></div>
-    <div class="card-body">
+    <div class="card-header bg-info"><h3>Meal: ${meal.meals[0].strMeal}</h3></div>
     <img src="${meal.meals[0].strMealThumb}" class="card-img-top" alt="${meal.meals[0].strMeal}">
-    <p><strong>Ingredients:</strong> ${ingredients.map(ingredients => `<li>${ingredients}</li>`)}</p>
-    <p class="right"><strong>Instructons:</strong> ${meal.meals[0].strInstructions}</p>
+    <div class="card-body">
+    <ul><strong>Ingredients:</strong> ${ingredients.map(ingredients => `<li>${ingredients}</li>`)}</ul> 
+    <p><strong>Instructons:</strong> ${meal.meals[0].strInstructions}</p>
     <div class="card-footer">
-    <button class="dislike">Dislike</button> <button class="like">Like</button>
+    <button class="dislike btn btn-danger">Dislike</button> <button class="like btn btn-success">Like</button>
     </div>
     </div>
     </div>
@@ -70,7 +71,7 @@ function render(meal) {
     $('.like').on('click', function () {
         $.ajax(URL).then(function (data) {
             toDO.push(meal.meals[0].strMeal);
-            $ul.append(`<li>${meal.meals[0].strMeal} <button class="delete">X</button></li>`);
+            $ul.append(`<li>${meal.meals[0].strMeal} <button class="delete btn btn-danger">X</button></li>`);
             $ul.on('click','.delete', function () {
                 $(this).closest('li').remove();
             });
