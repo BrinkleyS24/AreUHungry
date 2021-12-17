@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 30px 0;
     min-height: 100vh;
 }
@@ -39,17 +40,16 @@ h5{
     background: lightgray;
 }
 
-.content {
-    display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  width: 500px;
-  height: 400px;
-  align-content: space-between;
-  grid-gap: 15rem;
+.card-body > p ul {
+    display: inline;
+
 }
 
-
+.right {
+   position: fixed;
+   top: 0;
+   right: 0;
+}
 
 
 
