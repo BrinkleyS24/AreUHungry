@@ -1,6 +1,6 @@
 # Are U Hungry
 
-A random food generator that cycles through various recipes so you can choose yur favorites ones.
+A random food generator that cycles through various recipes so you can choose your favorites ones.
 
 ## Technologies Used
 
