@@ -22,3 +22,4 @@ A random food generator that cycles through various recipes so you can choose yo
  ## Future Enhancements:
 
  - To make the liked recipes a link to the recipes
+ - Update mobile responsiveness
