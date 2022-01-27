@@ -2,10 +2,12 @@
     box-sizing: border-box;
   }
   
-.container {
+
+body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 30px 0;
     min-height: 100vh;
 }
@@ -16,6 +18,10 @@ h5{
 
 #ingredients {
     text-decoration: underline;
+}
+main {
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -39,10 +45,6 @@ h5{
     background: lightgray;
 }
 
-.card-body > p ul {
-    display: inline;
-
-}
 
 .right {
    position: fixed;
