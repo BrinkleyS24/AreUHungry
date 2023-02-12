@@ -1,54 +1,62 @@
-// variables
 const URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
 const toDO = [];
-const $h5 = $("<h5></h5>").text("To Make List ");
 
-
-// element references
 const $getMeal = $('#getMeal');
-const $dislike = $('.dislike');
-const $like = $('like');
-const $ul = $('ul')
-const $right = $('.right')
+const $main = $('main');
+const $right = $('.right');
 
-// // event listeners
 $getMeal.on('click', handleGetMeal);
 
 
-// functions
-
 
 function handleGetMeal(evt) {
-
     $.ajax(URL).then(function (data) {
         render(data);
     }, function (error) {
         console.log('something went wrong');
         console.log(error);
     });
+
     $(this).remove();
 };
 
-
-
-function render(meal) {
-
-    let ingredients = [];
+$li.on('click', function () {
+    const meal = toDO[$(this).index()];
+    const ingredients = [];
 
     for (let i = 1; i <= 20; i++) {
-        if (meal.meals[0]["strIngredient" + i]) {
-
-            ingredients.push(
-                `${meal.meals[0][`strIngredient${i}`]} - ${meal.meals[0][`strMeasure${i}`]}`
-            );
-
+        if (meal[`strIngredient${i}`]) {
+            ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
         } else {
             break;
         }
     }
 
-    
+    $main.html(`
+      <div class="card"> 
+        <h3 class="card-header bg-info">Meal: ${meal.strMeal}</h3>
+        <img src="${meal.strMealThumb}" class="card-img-top" alt="${meal.strMeal}">
+        <div class="card-body">
+          <ul><strong>Ingredients:</strong> 
+            ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join(' ')}
+          </ul> 
+          <p><strong>Instructions:</strong> ${meal.strInstructions}</p>
+        </div>
+      </div> 
+    `);
+});
 
+
+function render(meal) {
+    const ingredients = [];
+
+    for (let i = 1; i <= 20; i++) {
+        if (meal.meals[0][`strIngredient${i}`]) {
+            ingredients.push(`${meal.meals[0][`strIngredient${i}`]} - ${meal.meals[0][`strMeasure${i}`]}`);
+        } else {
+            break;
+        }
+    }
 
     $('main').html(`
     <div class="card"> 
@@ -64,25 +72,34 @@ function render(meal) {
     </div> 
     `);
 
-
-    $('.dislike').on('click', function () {
-        $.ajax(URL).then(function (data) {
-            render(data);
-        }, function (error) {
-            console.log('something went wrong');
-            console.log(error);
-        });
-    });
+    $('.dislike').on('click', handleGetMeal);
 
     $('.like').on('click', function () {
-        $.ajax(URL).then(function (data) {
-            $right.prepend($h5);
-            toDO.push(meal.meals[0].strMeal);
-            $ul.append(`<li>${meal.meals[0].strMeal} <button class="delete btn btn-danger btn-sm">X</button></li>`);
-            $ul.on('click', '.delete', function () {
-                $(this).closest('li').remove();
-            });
-            render(data);
+        toDO.push(meal);
+
+        const $ul = $('ul');
+        const $li = $(`<li class="toDoMeal">${meal.meals[0].strMeal} 
+                    <button class="delete">X</button>
+                   </li>`);
+
+        if (!$right.find('h5').length) {
+            $right.prepend('<h5>To Make List</h5>');
+        }
+
+        $ul.append($li);
+        $li.on('click', '.delete', function () {
+            $(this).closest('li').remove();
+            if (!$right.find('li').length) {
+                $right.find('h5').remove();
+            }
         });
+
+        $('.toDoMeal').on('click', function () {
+            const clickedMeal = toDO[$(this).index()];
+            render(clickedMeal);
+        });
+
+        handleGetMeal();
     });
 };
+
