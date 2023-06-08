@@ -10,7 +10,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script defer src="#"></script>
+    <script defer src="create_meal.js"></script>
     <title>Are u Hungry?</title>
 </head>
 
@@ -18,20 +18,29 @@
 
     <div class="container">
         <h1>What's in Your Kitchen?</h1>
-        <form id="mealForm">
+
+        <div class="header">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create_meal.html">Create Meal</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div id="ingredientButtons">
+            <button class="btn btn-success add-ingredient" type="button">+</button>
+            <button class="btn btn-danger remove-ingredient" type="button">-</button>
+          </div>
+          <form id="mealForm">
             <div class="form-group">
-                <label for="ingredient1">Ingredient 1:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="ingredient1" name="ingredient1" required>
-                    <div class="input-group-append">
-                        <button class="btn btn-success add-ingredient" type="button">+</button>
-                        <button class="btn btn-danger remove-ingredient" type="button">-</button>
-                    </div>
-                </div>
+              <label for="ingredient1">Ingredient:</label>
+              <input type="text" class="form-control ingredient" id="ingredient1" name="ingredient1" required>
             </div>
-    
-            <button type="submit" class="btn btn-primary">Find Recipes</button>
-        </form>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         <div id="recipeResults"></div>
     </div>
     
