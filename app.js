@@ -1,13 +1,11 @@
 const URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
-const toDO = [];
+const toDo = [];
 
 const $getMeal = $('#getMeal');
 const $main = $('main');
 const $right = $('.right');
 
 $getMeal.on('click', handleGetMeal);
-
-
 
 function handleGetMeal(evt) {
     $.ajax(URL).then(function (data) {
@@ -18,10 +16,11 @@ function handleGetMeal(evt) {
     });
 
     $(this).remove();
-};
+}
 
-$li.on('click', function () {
-    const meal = toDO[$(this).index()];
+// Select the appropriate element(s) for $li and attach the click event handler
+$('ul').on('click', 'li', function () {
+    const meal = toDo[$(this).index()];
     const ingredients = [];
 
     for (let i = 1; i <= 20; i++) {
@@ -46,7 +45,6 @@ $li.on('click', function () {
     `);
 });
 
-
 function render(meal) {
     const ingredients = [];
 
@@ -67,7 +65,10 @@ function render(meal) {
     <p><strong>Instructons:</strong> ${meal.meals[0].strInstructions}</p>
     </div>
     <div class="card-footer">
-    <button class="dislike btn btn-danger">Dislike</button> <button class="like btn btn-success">Like</button>
+    ${toDo.includes(meal) ?
+        '<button class="next btn btn-primary">Next</button>' :
+        '<button class="dislike btn btn-danger">Dislike</button> <button class="like btn btn-success">Like</button>'
+    }
     </div>
     </div> 
     `);
@@ -75,7 +76,7 @@ function render(meal) {
     $('.dislike').on('click', handleGetMeal);
 
     $('.like').on('click', function () {
-        toDO.push(meal);
+        toDo.push(meal);
 
         const $ul = $('ul');
         const $li = $(`<li class="toDoMeal">${meal.meals[0].strMeal} 
@@ -83,7 +84,7 @@ function render(meal) {
                    </li>`);
 
         if (!$right.find('h5').length) {
-            $right.prepend('<h5>To Make List</h5>');
+            $right.prepend('<h5>To Make List:</h5>');
         }
 
         $ul.append($li);
@@ -95,11 +96,12 @@ function render(meal) {
         });
 
         $('.toDoMeal').on('click', function () {
-            const clickedMeal = toDO[$(this).index()];
+            const clickedMeal = toDo[$(this).index()];
             render(clickedMeal);
         });
 
         handleGetMeal();
     });
-};
 
+    $('.next').on('click', handleGetMeal);
+}
