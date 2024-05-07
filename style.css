@@ -154,3 +154,7 @@ button {
     cursor: pointer;
     padding: 0 10px;
 }
+
+svg {
+    border-right: 25px;
+}
