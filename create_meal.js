@@ -1,55 +1,90 @@
-$(document).ready(function() {
-    let ingredientCount = 1;
-  
-    // Handle click event for adding ingredient input
-    $('.add-ingredient').click(function() {
-      ingredientCount++;
-      const ingredientInput = `
-        <div class="form-group">
-          <label for="ingredient${ingredientCount}">Ingredient:</label>
-          <input type="text" class="form-control ingredient" id="ingredient${ingredientCount}" name="ingredient${ingredientCount}" required>
-        </div>
-      `;
-      $(ingredientInput).insertBefore('.form-group:last');
-  
-      // Show the minus button
-      $('.remove-ingredient').show();
+$(document).ready(function () {
+    const $likedRecipesNote = $('.quantity');
+    const $likedRecipesDropdown = $('#likedRecipesDropdown');
+    
+    // Retrieve liked recipes from localStorage or initialize to an empty array
+    let likedRecipesNote = JSON.parse(localStorage.getItem('likedRecipes')) || [];
+    updateLikedRecipesNote();
+    renderLikedRecipesDropdown();
+
+    $('.add-ingredient').click(function () {
+        $('#mealForm').append(`<div class="form-group">
+            <label for="ingredient">Ingredient:</label>
+            <input type="text" class="form-control ingredient" required>
+        </div>`);
     });
-  
-    // Handle click event for removing ingredient input
-    $('.remove-ingredient').click(function() {
-      if (ingredientCount > 1) {
-        $('.form-group:last').remove();
-        ingredientCount--;
-  
-        // Hide the minus button if there is only one ingredient input
-        if (ingredientCount === 1) {
-          $('.remove-ingredient').hide();
+
+    $('.remove-ingredient').click(function () {
+        if ($('.ingredient').length > 1) {
+            $('.ingredient').last().parent().remove();
         }
-      }
     });
-  
-    // Hide the minus button initially if there is only one ingredient input
-    if (ingredientCount === 1) {
-      $('.remove-ingredient').hide();
+
+    $('#mealForm').submit(function (event) {
+        event.preventDefault();
+        const ingredients = $('.ingredient').map(function () {
+            return $(this).val().trim();
+        }).get().join(',');
+
+        fetchMeals(ingredients);
+    });
+
+    function fetchMeals(ingredients) {
+        const URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredients}`;
+        
+        $.ajax(URL).then(function (data) {
+            renderMeals(data.meals);
+        }, function (error) {
+            console.log('Something went wrong');
+            console.log(error);
+        });
     }
-  
-    // Handle form submission
-    $('#mealForm').submit(function(event) {
-      event.preventDefault();
-      // Retrieve the values of all ingredient inputs
-      const ingredients = [];
-      $('.ingredient').each(function() {
-        const ingredientValue = $(this).val();
-        if (ingredientValue.trim() !== '') {
-          ingredients.push(ingredientValue);
+
+    function renderMeals(meals) {
+        const $recipeResults = $('#recipeResults');
+        $recipeResults.empty();
+        
+        if (meals) {
+            meals.forEach(meal => {
+                const mealCard = `
+                    <div class="card m-2" style="width: 18rem;">
+                        <img src="${meal.strMealThumb}" class="card-img-top" alt="${meal.strMeal}">
+                        <div class="card-body">
+                            <h5 class="card-title">${meal.strMeal}</h5>
+                            <a href="https://www.themealdb.com/meal/${meal.idMeal}" target="_blank" class="btn btn-primary">View Recipe</a>
+                        </div>
+                    </div>`;
+                $recipeResults.append(mealCard);
+            });
+        } else {
+            $recipeResults.html('<p>No meals found for the selected ingredients.</p>');
         }
-      });
-      // Use the retrieved ingredients to perform further actions (e.g., recipe search)
-      // You can customize this part based on your requirements
-      console.log('Ingredients:', ingredients);
-      // Clear the form inputs
-      $(this)[0].reset();
-    });
-  });
-  
+    }
+
+    function updateLikedRecipesNote() {
+        $likedRecipesNote.text(likedRecipesNote.length);
+    }
+
+    function renderLikedRecipesDropdown() {
+        $likedRecipesDropdown.empty();
+
+        likedRecipesNote.forEach((meal, index) => {
+            const $dropdownItem = $(`<li class="dropdown-item d-flex align-items-center justify-content-between">
+                <div>
+                    <img src="${meal.meals[0].strMealThumb}" alt="${meal.meals[0].strMeal}" style="width: 30px; height: 30px;">
+                    <span>${meal.meals[0].strMeal}</span>
+                </div>
+                <button class="remove-item btn btn-sm btn-danger" data-index="${index}" style="padding: 0 5px; font-size: 0.8rem;">x</button>
+            </li>`);
+            $likedRecipesDropdown.append($dropdownItem);
+        });
+
+        $('.remove-item').on('click', function () {
+            const index = $(this).data('index');
+            likedRecipesNote.splice(index, 1);
+            localStorage.setItem('likedRecipes', JSON.stringify(likedRecipesNote));
+            updateLikedRecipesNote();
+            renderLikedRecipesDropdown();
+        });
+    }
+});
