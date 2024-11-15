@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const apiKey = '44bdadcda9644144a4d9c6e5fe4c3096';  
+    const apiKey = config.SPOONACULAR_API_KEY;  
 
     const RANDOM_URL = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}`;
     const SEARCH_URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=`;
