@@ -4,10 +4,12 @@ import MealCard from './MealCard';
 function Main({ fetchRandomMeal, likedRecipes, updateLikedRecipes, currentMeal }) {
     const [displayedMeal, setDisplayedMeal] = useState(null);
 
+    // Fetch a meal if no currentMeal is provided
     useEffect(() => {
-        if (currentMeal) {
-            setDisplayedMeal(currentMeal); 
-            fetchMeal(); 
+        if (!currentMeal) {
+            fetchMeal();
+        } else {
+            setDisplayedMeal(currentMeal);
         }
     }, [currentMeal]);
 
@@ -27,17 +29,18 @@ function Main({ fetchRandomMeal, likedRecipes, updateLikedRecipes, currentMeal }
 
     return (
         <div className="main">
-            {displayedMeal && (
+            {displayedMeal ? (
                 <MealCard
                     meal={displayedMeal}
                     isLiked={likedRecipes.some((meal) => meal.id === displayedMeal.id)}
                     onLike={handleLike}
                     onDislike={handleDislike}
                 />
+            ) : (
+                <p>Loading meal...</p>
             )}
         </div>
     );
 }
 
 export default Main;
-
