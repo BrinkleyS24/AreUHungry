@@ -3,41 +3,55 @@ import MealCard from './MealCard';
 
 function Main({ fetchRandomMeal, likedRecipes, updateLikedRecipes, currentMeal }) {
     const [displayedMeal, setDisplayedMeal] = useState(null);
+    const [hasFetched, setHasFetched] = useState(false);
 
-    // Fetch a meal if no currentMeal is provided
     useEffect(() => {
-        if (!currentMeal) {
-            fetchMeal();
-        } else {
+        if (currentMeal) {
+            // Display the selected meal if provided
             setDisplayedMeal(currentMeal);
+            setHasFetched(true);
         }
     }, [currentMeal]);
 
     const fetchMeal = async () => {
         const meal = await fetchRandomMeal();
         setDisplayedMeal(meal);
+        setHasFetched(true);
     };
 
-    const handleLike = () => {
-        updateLikedRecipes(displayedMeal);
-        fetchMeal();
+    const handleLike = async () => {
+        updateLikedRecipes(displayedMeal); // Add the current meal to the liked list
+        const newMeal = await fetchRandomMeal(); // Fetch the next random meal
+        setDisplayedMeal(newMeal);
     };
 
-    const handleDislike = () => {
-        fetchMeal();
+    const handleDislike = async () => {
+        const newMeal = await fetchRandomMeal(); // Fetch the next random meal
+        setDisplayedMeal(newMeal);
     };
 
     return (
-        <div className="main">
-            {displayedMeal ? (
-                <MealCard
-                    meal={displayedMeal}
-                    isLiked={likedRecipes.some((meal) => meal.id === displayedMeal.id)}
-                    onLike={handleLike}
-                    onDislike={handleDislike}
-                />
+        <div className="main text-center">
+            {!hasFetched ? (
+                <>
+                    <h2>Are U Hungry?</h2>
+                    <h6>Hit the button below and find your next meal!</h6>
+                    <button
+                        className="btn btn-primary my-3"
+                        onClick={fetchMeal}
+                    >
+                        Give Me Something Good...
+                    </button>
+                </>
             ) : (
-                <p>Loading meal...</p>
+                displayedMeal && (
+                    <MealCard
+                        meal={displayedMeal}
+                        isLiked={likedRecipes.some((meal) => meal.id === displayedMeal.id)}
+                        onLike={handleLike}
+                        onDislike={handleDislike}
+                    />
+                )
             )}
         </div>
     );
