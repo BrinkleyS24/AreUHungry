@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/AreUHungry/static/css/main.27b00c82.css",
+    "main.js": "/AreUHungry/static/js/main.d5625cd8.js",
+    "static/js/453.6ecf0d6f.chunk.js": "/AreUHungry/static/js/453.6ecf0d6f.chunk.js",
+    "index.html": "/AreUHungry/index.html",
+    "main.27b00c82.css.map": "/AreUHungry/static/css/main.27b00c82.css.map",
+    "main.d5625cd8.js.map": "/AreUHungry/static/js/main.d5625cd8.js.map",
+    "453.6ecf0d6f.chunk.js.map": "/AreUHungry/static/js/453.6ecf0d6f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.27b00c82.css",
+    "static/js/main.d5625cd8.js"
+  ]
+}
