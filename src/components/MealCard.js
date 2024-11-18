@@ -5,7 +5,8 @@ function MealCard({ meal, isLiked, onLike, onDislike }) {
         <div className="card meal-card">
             <h3 className="card-header bg-info">{meal.title}</h3>
             <img src={meal.image} className="card-img-top" alt={meal.title} />
-            <div className="card-body">
+
+            <div className="card-body" style={{ textAlign: 'left' }}>
                 <p><strong>Servings:</strong> {meal.servings}</p>
                 <p><strong>Ready in:</strong> {meal.readyInMinutes} minutes</p>
                 <p>
@@ -14,17 +15,27 @@ function MealCard({ meal, isLiked, onLike, onDislike }) {
                         Recipe Source
                     </a>
                 </p>
-                <ul style={{ listStyleType: 'none' }}>
+                <ul >
                     <strong>Ingredients:</strong>
-                    {meal.ingredients.map((ing, index) => (
-                        <li key={index}>{ing}</li>
-                    ))}
+                    {meal.ingredients?.length ? (
+                        meal.ingredients.map((ing, index) => <li key={index}>{ing}</li>)
+                    ) : (
+                        <li>No ingredients provided</li>
+                    )}
                 </ul>
                 <div>
-                    <strong>Instructions:</strong>
-                    <p>{meal.instructions.join(' ')}</p>
+                    <h4>Instructions:</h4>
+                    <ol>
+                        {meal.instructions?.length ? (
+                            meal.instructions.map((step, index) => <li key={index}>{step}</li>)
+                        ) : (
+                            <li>No instructions available.</li>
+                        )}
+                    </ol>
                 </div>
             </div>
+
+
             <div className="card-footer d-flex justify-content-between">
                 {isLiked ? (
                     <button className="btn btn-primary" onClick={onDislike}>

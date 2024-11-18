@@ -7,7 +7,7 @@ function Main({ fetchRandomMeal, likedRecipes, updateLikedRecipes, currentMeal }
 
     useEffect(() => {
         if (currentMeal) {
-            // Display the selected meal if provided
+            
             setDisplayedMeal(currentMeal);
             setHasFetched(true);
         }
@@ -18,15 +18,16 @@ function Main({ fetchRandomMeal, likedRecipes, updateLikedRecipes, currentMeal }
         setDisplayedMeal(meal);
         setHasFetched(true);
     };
+    
 
     const handleLike = async () => {
-        updateLikedRecipes(displayedMeal); // Add the current meal to the liked list
-        const newMeal = await fetchRandomMeal(); // Fetch the next random meal
+        updateLikedRecipes(displayedMeal); 
+        const newMeal = await fetchRandomMeal(); 
         setDisplayedMeal(newMeal);
     };
 
     const handleDislike = async () => {
-        const newMeal = await fetchRandomMeal(); // Fetch the next random meal
+        const newMeal = await fetchRandomMeal(); 
         setDisplayedMeal(newMeal);
     };
 
