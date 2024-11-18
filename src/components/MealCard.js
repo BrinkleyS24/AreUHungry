@@ -14,7 +14,7 @@ function MealCard({ meal, isLiked, onLike, onDislike }) {
                         Recipe Source
                     </a>
                 </p>
-                <ul>
+                <ul style={{ listStyleType: 'none' }}>
                     <strong>Ingredients:</strong>
                     {meal.ingredients.map((ing, index) => (
                         <li key={index}>{ing}</li>
